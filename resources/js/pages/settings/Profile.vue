@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { Form, Head, usePage } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import DeleteUser from '@/components/DeleteUser.vue';
-import Heading from '@/components/Heading.vue';
-import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { edit } from '@/routes/profile';
-import { send } from '@/routes/verification';
+import { Form, Head, usePage } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
+import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
+import DeleteUser from "@/components/DeleteUser.vue";
+import Heading from "@/components/Heading.vue";
+import InputError from "@/components/InputError.vue";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { edit } from "@/routes/profile";
+import { send } from "@/routes/verification";
 
 defineOptions({
     layout: {
         breadcrumbs: [
             {
-                title: 'Profile settings',
+                title: "Profile settings",
                 href: edit(),
             },
         ],
@@ -36,7 +36,7 @@ const user = computed(() => page.props.auth.user);
         <Heading
             variant="small"
             title="Profile"
-            description="Update your name and email address"
+            description="Update your contact details and shipping address"
         />
 
         <Form
@@ -90,6 +90,75 @@ const user = computed(() => page.props.auth.user);
                     class="mt-2 text-sm font-medium text-green-600"
                 >
                     A new verification link has been sent to your email address.
+                </div>
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="phone">Phone</Label>
+                <Input
+                    id="phone"
+                    type="tel"
+                    class="mt-1 block w-full"
+                    name="phone"
+                    :default-value="user.phone ?? ''"
+                    autocomplete="tel"
+                    placeholder="Phone number"
+                />
+                <InputError class="mt-2" :message="errors.phone" />
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="address_line">Address</Label>
+                <Input
+                    id="address_line"
+                    class="mt-1 block w-full"
+                    name="address_line"
+                    :default-value="user.address_line ?? ''"
+                    autocomplete="street-address"
+                    placeholder="Street address"
+                />
+                <InputError class="mt-2" :message="errors.address_line" />
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-3">
+                <div class="grid gap-2">
+                    <Label for="city">City</Label>
+                    <Input
+                        id="city"
+                        class="mt-1 block w-full"
+                        name="city"
+                        :default-value="user.city ?? ''"
+                        autocomplete="address-level2"
+                        placeholder="City"
+                    />
+                    <InputError class="mt-2" :message="errors.city" />
+                </div>
+
+                <div class="grid gap-2">
+                    <Label for="postal_code">Postal code</Label>
+                    <Input
+                        id="postal_code"
+                        class="mt-1 block w-full"
+                        name="postal_code"
+                        :default-value="user.postal_code ?? ''"
+                        autocomplete="postal-code"
+                        placeholder="Postal code"
+                    />
+                    <InputError class="mt-2" :message="errors.postal_code" />
+                </div>
+
+                <div class="grid gap-2">
+                    <Label for="country">Country</Label>
+                    <Input
+                        id="country"
+                        class="mt-1 block w-full uppercase"
+                        name="country"
+                        maxlength="2"
+                        :default-value="user.country ?? ''"
+                        autocomplete="country"
+                        placeholder="MA"
+                    />
+                    <InputError class="mt-2" :message="errors.country" />
                 </div>
             </div>
 
